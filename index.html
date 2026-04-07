@@ -3,410 +3,310 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>¡Feliz Cumpleaños! 🎂</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet"/>
+  <title>🎂 ¡Feliz Cumpleaños!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --gold: #FFD700;
-      --pink: #FF6FAB;
-      --purple: #9B5DE5;
-      --cream: #FFF8F0;
-      --dark: #1a0a2e;
+      --pink:   #FF6B9D;
+      --yellow: #FFD93D;
+      --blue:   #4ECDC4;
+      --purple: #C77DFF;
+      --orange: #FF9A3C;
+      --bg:     #FFF5F9;
+      --card:   #FFFFFF;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: var(--dark);
-      font-family: 'Quicksand', sans-serif;
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      position: relative;
+      padding: 24px 16px;
+      overflow-x: hidden;
     }
 
-    /* ── CONFETTI ── */
-    .confetti-wrap {
+    #confetti-canvas {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
-    }
-    .dot {
-      position: absolute;
-      top: -20px;
-      border-radius: 50%;
-      animation: fall linear infinite;
-      opacity: 0.85;
-    }
-    @keyframes fall {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+      z-index: 100;
     }
 
-    /* ── CONTENEDOR PRINCIPAL ── */
     .card {
+      background: var(--card);
+      border-radius: 32px;
+      padding: 40px 32px 48px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 12px 48px rgba(255,107,157,.2), 0 2px 8px rgba(0,0,0,.06);
       position: relative;
-      z-index: 1;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(14px);
-      border: 2px solid rgba(255,215,0,0.25);
-      border-radius: 28px;
-      padding: 36px 30px 30px;
-      max-width: 500px;
-      width: 92vw;
+      animation: popIn .8s cubic-bezier(.34,1.56,.64,1) both;
       text-align: center;
-      box-shadow: 0 0 60px rgba(155,93,229,0.35), 0 0 120px rgba(255,111,171,0.15);
-      animation: popIn 0.8s cubic-bezier(.34,1.56,.64,1) both;
     }
     @keyframes popIn {
-      from { transform: scale(0.5) rotate(-6deg); opacity: 0; }
-      to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+      from { opacity:0; transform:scale(.82) translateY(30px); }
+      to   { opacity:1; transform:scale(1)   translateY(0);    }
+    }
+
+    .dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      position: absolute;
+      opacity: .4;
+    }
+
+    .balloons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .balloon {
+      font-size: 2.4rem;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    .balloon:nth-child(2) { animation-delay: .4s; }
+    .balloon:nth-child(3) { animation-delay: .8s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0)    rotate(-4deg); }
+      50%      { transform: translateY(-14px) rotate(4deg); }
     }
 
     h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: clamp(2rem, 8vw, 3.4rem);
-      background: linear-gradient(135deg, var(--gold), var(--pink), var(--purple));
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.9rem, 6vw, 2.6rem);
+      background: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      line-height: 1.2;
       margin-bottom: 6px;
-      animation: shimmer 3s linear infinite;
-      background-size: 200%;
-    }
-    @keyframes shimmer {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
-    .subtitle {
-      color: rgba(255,255,255,0.65);
-      font-size: 0.95rem;
-      margin-bottom: 22px;
-      letter-spacing: 1px;
-    }
-
-    /* ── CARRUSEL ── */
-    .carousel-wrap {
-      position: relative;
-      border-radius: 18px;
-      overflow: hidden;
+    .name-line {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      color: var(--purple);
       margin-bottom: 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      opacity: 0;
+      animation: fadeSlide .7s .6s forwards;
     }
-    .carousel {
-      display: flex;
-      transition: transform 0.6s cubic-bezier(.77,0,.18,1);
-      will-change: transform;
-    }
-    .slide {
-      min-width: 100%;
-      height: 240px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 7rem;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .slide .caption {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.4rem;
-      color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-      background: rgba(0,0,0,0.35);
-      padding: 6px 16px;
-      border-radius: 50px;
-    }
-    /* fondos de cada slide */
-    .s1 { background: linear-gradient(135deg,#f7971e,#ffd200); }
-    .s2 { background: linear-gradient(135deg,#f953c6,#b91d73); }
-    .s3 { background: linear-gradient(135deg,#00c3ff,#0062ff); }
-    .s4 { background: linear-gradient(135deg,#11998e,#38ef7d); }
-    .s5 { background: linear-gradient(135deg,#8e44ad,#3498db); }
-
-    /* flechas */
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.18);
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 10;
-      transition: background 0.2s;
-      display: flex; align-items: center; justify-content: center;
-      backdrop-filter: blur(6px);
-    }
-    .arrow:hover { background: rgba(255,255,255,0.35); }
-    .arrow.left  { left: 10px; }
-    .arrow.right { right: 10px; }
-
-    /* puntos */
-    .dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-    .dot-btn {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .dot-btn.active {
-      background: var(--gold);
-      transform: scale(1.4);
+    @keyframes fadeSlide {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0);    }
     }
 
-    /* ── MENSAJE ── */
-    .message {
-      color: rgba(255,255,255,0.88);
-      font-size: 1rem;
-      line-height: 1.7;
-      padding: 0 10px;
+    .cake {
+      font-size: 4.5rem;
       margin-bottom: 22px;
+      display: inline-block;
+      animation: wiggle 2.2s ease-in-out infinite;
     }
-    .name {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.6rem;
-      color: var(--gold);
+    @keyframes wiggle {
+      0%,100% { transform: rotate(0);     }
+      20%      { transform: rotate(-8deg); }
+      40%      { transform: rotate(8deg);  }
+      60%      { transform: rotate(-4deg); }
+      80%      { transform: rotate(4deg);  }
     }
 
-    /* ── CONTROLES DE MÚSICA ── */
-    .music-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50px;
-      padding: 8px 16px;
-      justify-content: center;
+    .message-box {
+      background: linear-gradient(135deg, #FFF0F8 0%, #F5EEFF 100%);
+      border: 3px solid #F5DAFF;
+      border-radius: 22px;
+      padding: 26px 22px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeSlide .7s .9s forwards;
     }
-    .music-bar .note { font-size: 1.2rem; animation: bounce 1s infinite alternate; }
-    @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-5px); } }
 
-    .music-label { color: rgba(255,255,255,0.7); font-size: 0.82rem; }
-    .music-label strong { color: var(--pink); }
-
-    .play-btn {
-      background: linear-gradient(135deg, var(--pink), var(--purple));
-      border: none;
-      color: #fff;
-      border-radius: 50px;
-      padding: 6px 16px;
-      cursor: pointer;
+    .message-text {
       font-family: 'Quicksand', sans-serif;
+      font-size: 0.8rem;
       font-weight: 600;
-      font-size: 0.82rem;
-      transition: opacity 0.2s, transform 0.2s;
+      color: #555;
+      line-height: 1.9;
+      text-align: left;
+      white-space: pre-line;
     }
-    .play-btn:hover { opacity: 0.85; transform: scale(1.05); }
 
-    /* balloons */
-    .balloons {
-      position: fixed;
-      bottom: -80px;
-      left: 0; right: 0;
-      display: flex;
-      justify-content: space-around;
-      pointer-events: none;
-      z-index: 0;
+    .message-text .highlight {
+      color: var(--pink);
+      font-weight: 800;
+      text-align: center;
     }
-    .balloon {
-      width: 40px; height: 52px;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      position: relative;
-      animation: floatUp linear infinite;
+
+    .center-text{
+      display: block;
+      text-align: center;
     }
-    .balloon::after {
-      content: '';
-      position: absolute;
-      bottom: -18px; left: 50%;
-      transform: translateX(-50%);
-      width: 1px; height: 18px;
-      background: rgba(255,255,255,0.4);
+
+    .emojis-row {
+      font-size: 2rem;
+      letter-spacing: 6px;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: fadeSlide .7s 1.1s forwards;
     }
-    @keyframes floatUp {
-      0%   { transform: translateY(0) rotate(-3deg); opacity: 1; }
-      50%  { transform: translateY(-110vh) rotate(3deg); opacity: 0.7; }
-      100% { transform: translateY(-220vh); opacity: 0; }
+    .emojis-row span {
+      display: inline-block;
+      animation: bounce 1s ease-in-out infinite alternate;
     }
+    .emojis-row span:nth-child(2) { animation-delay: .15s; }
+    .emojis-row span:nth-child(3) { animation-delay: .30s; }
+    .emojis-row span:nth-child(4) { animation-delay: .45s; }
+    .emojis-row span:nth-child(5) { animation-delay: .60s; }
+    @keyframes bounce {
+      from { transform: translateY(0);    }
+      to   { transform: translateY(-8px); }
+    }
+
+    .signature {
+      font-family: 'Pacifico', cursive;
+      font-size: 0.95rem;
+      background: linear-gradient(135deg, var(--pink), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeSlide .7s 1.3s forwards;
+    }
+
+    .btn-confetti {
+      margin-top: 22px;
+      padding: 13px 32px;
+      border: none;
+      border-radius: 18px;
+      font-family: 'Pacifico', cursive;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(255,107,157,.35);
+      transition: transform .15s, box-shadow .15s;
+      opacity: 0;
+      animation: fadeSlide .7s 1.5s forwards;
+    }
+    .btn-confetti:hover  { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(255,107,157,.45); }
+    .btn-confetti:active { transform: translateY(0); }
   </style>
 </head>
 <body>
 
-<!-- Confetti -->
-<div class="confetti-wrap" id="confetti"></div>
+<canvas id="confetti-canvas"></canvas>
 
-<!-- Globos -->
-<div class="balloons" id="balloons"></div>
-
-<!-- Tarjeta principal -->
 <div class="card">
-  <h1>¡Feliz Cumpleaños! 🎂</h1>
-  <p class="subtitle">✨ Un día muy especial para ti ✨</p>
 
-  <!-- Carrusel -->
-  <div class="carousel-wrap">
-    <button class="arrow left" onclick="move(-1)">&#8592;</button>
-    <div class="carousel" id="carousel">
-      <div class="slide s1">🎂<span class="caption">¡Que lo goces mucho!</span></div>
-      <div class="slide s2">🎉<span class="caption">Mil felicidades</span></div>
-      <div class="slide s3">🥳<span class="caption">Brilla siempre</span></div>
-      <div class="slide s4">🎁<span class="caption">Tus sueños se cumplan</span></div>
-      <div class="slide s5">💫<span class="caption">¡Eres increíble!</span></div>
-    </div>
-    <button class="arrow right" onclick="move(1)">&#8594;</button>
+  <div class="dot" style="background:var(--yellow);top:-7px;left:26px;"></div>
+  <div class="dot" style="background:var(--pink);top:14px;right:-5px;width:10px;height:10px;"></div>
+  <div class="dot" style="background:var(--blue);bottom:22px;left:-5px;width:18px;height:18px;"></div>
+  <div class="dot" style="background:var(--orange);bottom:-6px;right:38px;"></div>
+
+  <div class="balloons">
+    <span class="balloon">🎈</span>
+    <span class="balloon">🎉</span>
+    <span class="balloon">🎈</span>
   </div>
 
-  <!-- Dots -->
-  <div class="dots" id="dots"></div>
+  <h1>¡Feliz Cumpleaños!</h1>
+  <p class="name-line">🌸 Valeria 💪 🌸</p>
 
-  <!-- Mensaje personalizable -->
-  <p class="message">
-    Hoy es un día muy especial porque <span class="name">¡tú naciste! 🌟</span><br>
-    Que este año te traiga mucha alegría, salud y todo lo que tu corazón desea.<br>
-    <em>¡Disfruta tu día al máximo! 🎊</em>
-  </p>
+  <div class="cake">🎂</div>
 
-  <!-- Música -->
-  <div class="music-bar">
-    <span class="note">🎵</span>
-    <span class="music-label"><strong>Happy Birthday</strong> — sonando para ti</span>
-    <button class="play-btn" id="playBtn" onclick="toggleMusic()">⏸ Pausar</button>
+  <div class="message-box">
+    <p class="message-text"><span class="highlight "> ⋆｡𖦹˚ 𓇼｡⋆✮⋆ ⋆｡𖦹 ˚ 𓇼 ｡⋆✮⋆ ⋆｡𖦹 ˚ 𓇼 ˚｡⋆✮⋆ ⋆｡𖦹 ˚𓇼🎉</span>
+       Te deseo un muy buen día y que la pases increíble. Que todas tus metas y sueños se cumplan.
+       Gracias por los momentos que hemos compartido.
+       Que este nuevo año te traiga cosas buenas y que sigas creciendo para salir adelante.
+       
+       Sabes que te quiero mucho, aunque a veces no te lo diga. Siempre puedes contar conmigo para lo que sea estoy contigo, no estás sola.
+       Échale ganas a la escuela. 💪
+
+<span class="highlight center-text">Te quiero, no lo olvides. 
+                                Te mando un fuerte abrazo. 🤗</span></p>
   </div>
+
+  <div class="emojis-row">
+    <span>🌟</span><span>°❀⋆.ೃ࿔*:･</span><span>🌟</span>
+  </div>
+
+  <p class="signature">La vida nos enseña a que en un mundo tan grande hay cosas buenas 
+    que debemos de aprender a vivir sin importar las circunstancias. 💕</p>
+
+  <!-- <button class="btn-confetti" onclick="launchConfetti()">
+    🎊 ¡Celebrar!
+  </button> -->
+
 </div>
 
 <script>
-// ── MÚSICA (Web Audio API) ─────────────────────────────────────────
-let ctx, isPlaying = false, loopTimeout;
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx    = canvas.getContext('2d');
+  let pieces   = [];
+  let animId, running = false;
+  const COLORS = ['#FF6B9D','#FFD93D','#4ECDC4','#C77DFF','#FF9A3C','#6BFF9D','#FF6B6B'];
 
-function nota(freq, start, dur) {
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-  o.connect(g); g.connect(ctx.destination);
-  o.frequency.value = freq;
-  o.type = 'sine';
-  g.gain.setValueAtTime(0, ctx.currentTime + start);
-  g.gain.linearRampToValueAtTime(0.18, ctx.currentTime + start + 0.02);
-  g.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur - 0.05);
-  o.start(ctx.currentTime + start);
-  o.stop(ctx.currentTime + start + dur);
-}
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize);
+  resize();
 
-// Happy Birthday notas y tiempos (Hz, inicio_seg, duración_seg)
-const song = [
-  [261.6,0,0.3],[261.6,0.35,0.15],[293.7,0.55,0.5],[261.6,1.1,0.5],
-  [349.2,1.65,0.5],[329.6,2.2,1.0],
-  [261.6,3.4,0.3],[261.6,3.75,0.15],[293.7,3.95,0.5],[261.6,4.5,0.5],
-  [392.0,5.05,0.5],[349.2,5.6,1.0],
-  [261.6,6.8,0.3],[261.6,7.15,0.15],[523.3,7.35,0.5],[440.0,7.9,0.5],
-  [349.2,8.45,0.5],[329.6,9.0,0.5],[293.7,9.55,1.0],
-  [466.2,10.7,0.3],[466.2,11.05,0.15],[440.0,11.25,0.5],[349.2,11.8,0.5],
-  [392.0,12.35,0.5],[349.2,12.9,1.3]
-];
-const SONG_DURATION = 14.5;
-
-function playSong() {
-  if (!ctx) return;
-  song.forEach(([f,s,d]) => nota(f,s,d));
-  loopTimeout = setTimeout(playSong, SONG_DURATION * 1000);
-}
-
-function stopSong() {
-  clearTimeout(loopTimeout);
-  if (ctx) { ctx.close(); ctx = null; }
-}
-
-function toggleMusic() {
-  const btn = document.getElementById('playBtn');
-  if (isPlaying) {
-    stopSong();
-    isPlaying = false;
-    btn.textContent = '▶ Reanudar';
-  } else {
-    startMusic();
+  function spawnConfetti(n) {
+    for (let i = 0; i < n; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height * -.5 - 10,
+        w: 6 + Math.random() * 10,
+        h: 4 + Math.random() * 7,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        rot: Math.random() * 360,
+        vx: (Math.random() - .5) * 3.5,
+        vy: 2.5 + Math.random() * 4,
+        vr: (Math.random() - .5) * 8,
+        alpha: 1,
+        shape: Math.random() > .5 ? 'rect' : 'circle',
+      });
+    }
   }
-}
 
-function startMusic() {
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-  isPlaying = true;
-  document.getElementById('playBtn').textContent = '⏸ Pausar';
-  playSong();
-}
+  function drawLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces = pieces.filter(p => p.alpha > 0.01);
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vy += 0.08;
+      if (p.y > canvas.height * .88) p.alpha -= 0.022;
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      if (p.shape === 'circle') {
+        ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      }
+      ctx.restore();
+    });
+    // Reponer piezas cuando quedan pocas → bucle infinito
+    if (pieces.length < 60) spawnConfetti(180);
+    animId = requestAnimationFrame(drawLoop);
+  }
 
-// Autoplay al primer clic/toque
-document.addEventListener('click', function init() {
-  if (!isPlaying) startMusic();
-  document.removeEventListener('click', init);
-}, { once: true });
+  function launchConfetti() {
+    if (running) return;
+    pieces = [];
+    spawnConfetti(260);
+    running = true;
+    drawLoop();
+  }
 
-// ── CARRUSEL ──────────────────────────────────────────────────────
-let cur = 0;
-const slides = document.querySelectorAll('.slide');
-const total  = slides.length;
-const dotsEl = document.getElementById('dots');
-
-slides.forEach((_,i) => {
-  const b = document.createElement('button');
-  b.className = 'dot-btn' + (i===0?' active':'');
-  b.onclick = () => goTo(i);
-  dotsEl.appendChild(b);
-});
-
-function goTo(n) {
-  cur = (n + total) % total;
-  document.getElementById('carousel').style.transform = `translateX(-${cur*100}%)`;
-  document.querySelectorAll('.dot-btn').forEach((d,i)=>d.classList.toggle('active',i===cur));
-}
-function move(dir) { goTo(cur+dir); }
-setInterval(() => move(1), 3500);
-
-// ── CONFETTI ──────────────────────────────────────────────────────
-const colors = ['#FFD700','#FF6FAB','#9B5DE5','#00F5FF','#FF4E50','#F9D423'];
-const wrap = document.getElementById('confetti');
-for (let i=0;i<55;i++){
-  const d=document.createElement('div');
-  d.className='dot';
-  const size=Math.random()*10+5;
-  d.style.cssText=`
-    left:${Math.random()*100}%;
-    width:${size}px; height:${size}px;
-    background:${colors[Math.floor(Math.random()*colors.length)]};
-    animation-duration:${Math.random()*4+3}s;
-    animation-delay:${Math.random()*4}s;
-  `;
-  wrap.appendChild(d);
-}
-
-// ── GLOBOS ────────────────────────────────────────────────────────
-const ballColors=['#FF6FAB','#FFD700','#9B5DE5','#00c3ff','#38ef7d','#f7971e'];
-const ballWrap=document.getElementById('balloons');
-for(let i=0;i<10;i++){
-  const b=document.createElement('div');
-  b.className='balloon';
-  b.style.cssText=`
-    background:${ballColors[i%ballColors.length]};
-    animation-duration:${Math.random()*5+6}s;
-    animation-delay:${Math.random()*6}s;
-  `;
-  ballWrap.appendChild(b);
-}
+  // Confeti automático al abrir 🎉
+  window.addEventListener('load', () => setTimeout(launchConfetti, 800));
 </script>
 </body>
 </html>
